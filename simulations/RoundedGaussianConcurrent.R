@@ -1,3 +1,9 @@
+library(NMF)
+library(Rcpp)
+library(tidyverse)
+library(latex2exp)
+library(pROC)
+
 source("SetupFunctions.R")
 sourceCpp("./models/sampler_snapdragonXonly.cpp")
 
