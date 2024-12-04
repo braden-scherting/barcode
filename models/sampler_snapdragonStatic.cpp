@@ -498,6 +498,5 @@ Rcpp::List sampler_snapdragonStatic(int niter, int nthin, int nburn, Rcpp::List 
                             Rcpp::Named("Eta") = Eta,
                             Rcpp::Named("bPhi") = bPhi,
                             Rcpp::Named("bGamma") = bGamma,
-                            Rcpp::Named("psiS") = psiS,
-                            Rcpp::Named("Ypart") = Ypart);
+                            Rcpp::Named("psiS") = psiS);
 }

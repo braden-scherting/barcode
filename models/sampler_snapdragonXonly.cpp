@@ -592,7 +592,6 @@ Rcpp::List sampler_snapdragonXonly(int niter, int nthin, int nburn, Rcpp::List d
                            Rcpp::Named("bGamma") = bGamma,
                            Rcpp::Named("psiS") = psiS,
                            Rcpp::Named("Beta") = Beta,
-                           Rcpp::Named("Xi") = Xi,
-                           Rcpp::Named("Ypart") = Ypart);
+                           Rcpp::Named("Xi") = Xi);
 }
 
