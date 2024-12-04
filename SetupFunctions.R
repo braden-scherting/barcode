@@ -139,6 +139,41 @@ runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, ...){
                 ...)
   } 
   
-  saveRDS(tmpFit, paste0("results/", format(Sys.time(), "%H%M%a%e%b%Y"), ".rds"))
+  saveRDS(tmpFit, paste0("results/", format(Sys.time(), "%H%M%a%d%b%Y"), ".rds"))
   return(NULL)
 }
+
+stackChains <- function(list4, name){
+  dims <- dim(list4[[1]][[name]])
+  ndim <- length(dims)
+  
+  
+  niter <- dims[ndim]
+  dims[ndim] <- dims[ndim]*4
+  
+  tmpArr <- array(dim=dims)
+  
+  if (ndim==3){
+    for (i in 1:4){
+      tmpArr[,,((i-1)*niter + 1):(i*niter)] <- list4[[i]][[name]]
+    }
+  } else if (ndim==2){
+    for (i in 1:4){
+      tmpArr[,((i-1)*niter + 1):(i*niter)] <- list4[[i]][[name]]
+    }
+  } else {
+    for (i in 1:4){
+      tmpArr[((i-1)*niter + 1):(i*niter)] <- list4[[i]][[name]]
+    }
+  }
+  return(tmpArr)
+}
+
+stackedList <- function(list4){
+  newList <- list()
+  for (name in names(list4[[1]])[names(list4[[1]] != "Ypart")]){
+    newList[[name]] <- stackChains(list4, name)
+  }
+  return(newList)
+}
+
