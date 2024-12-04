@@ -114,7 +114,7 @@ loadData <- function(nYears=11, nSpecies=137, noFactors=10, initialization=T, ye
 
 runOneChain <- function(dims, dat, storeInit, workerSeed=sample(10:1e7,1), 
                         workerNo=0, niter=200, nthin=1, nburn=200, pred=0, blockSize=5){
-  sourceCpp("sampler_snapdragon.cpp")
+  sourceCpp("models/sampler_snapdragon.cpp")
   
   blockSize <- min(dims$L, blockSize)
   storeInit$Cstar <- matrix(0, ncol=blockSize, nrow=2^blockSize)
