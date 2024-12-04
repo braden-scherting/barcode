@@ -1,4 +1,5 @@
-sourceCpp("sampler_snapdragonStatic.cpp")
+source("SetupFunctions.R")
+sourceCpp("./models/sampler_snapdragonStatic.cpp")
 
 getStoreInit <- function(dat, dims){
   storeInit <- list(Ypresent=1 * !is.na(dat$Y))
@@ -57,4 +58,4 @@ for (rep in 1:nreps){
 }
 
 saveRDS(list(pCopRMSE=pCopRMSE, pCopMAE=pCopMAE), 
-        "results/PoissonCopulaUnconstrained")
+        "./results/PoissonCopulaUnconstrained")

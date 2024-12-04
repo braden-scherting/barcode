@@ -4,9 +4,8 @@ library(tidyverse)
 library(latex2exp)
 library(pROC)
 
-source("awwwSnap.R")
-sourceCpp("sampler_snapdragonStatic.cpp")
-# sourceCpp("sampler_snapdragon.cpp")
+source("SetupFunctions.R")
+sourceCpp("./models/sampler_snapdragonStatic.cpp")
 
 # ---FIXED VALUES--- # 
 set.seed(1161140)
@@ -86,9 +85,9 @@ for (xx in 1:3){
   }
 }
 
-saveRDS(list(PE00, PE01), "results/PE.rds")
+saveRDS(list(PE00, PE01), "./results/PE.rds")
 
-PE <- readRDS("results/PE.rds")
+PE <- readRDS("./results/PE.rds")
 PE00 <- PE[[1]]; PE01 <- PE[[2]]
 
 data.frame(y=c(PE00, PE01),

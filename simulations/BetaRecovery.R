@@ -3,9 +3,10 @@ library(Rcpp)
 library(tidyverse)
 library(latex2exp)
 
-source("awwwSnap.R")
+source("SetupFunctions.R")
+sourceCpp("./models/sampler_snapdragonXonly.cpp")
 # sourceCpp("sampler_snapdragonStatic.cpp")
-sourceCpp("sampler_snapdragon.cpp")
+# sourceCpp("sampler_snapdragon.cpp")
 
 # ---FIXED VALUES--- # 
 set.seed(1097329)
@@ -65,7 +66,7 @@ stop=F; for (k in 1:length(Ns)){
     storeInit$PhiInit <- matrix(1/dims$N, nrow=dims$N, ncol=dims$L)
     storeInit$GammaInit <- matrix(rgamma(dims$P*dims$L, 1000, 0.1), nrow=dims$P, ncol=dims$L)
     
-    out <- sampler_snapdragon(5000, 1, 2500, dims, dat, storeInit, 8115201 + (k * rep^2))
+    out <- sampler_snapdragonXonly(5000, 1, 2500, dims, dat, storeInit, 8115201 + (k * rep^2))
     perm <- apply(apply(out$S, c(1,2), mean)[1:L,], 1, which.max)
     
     BigBeta[,,,k,rep] <- apply(out$Beta[,perm,], c(1,2), 
@@ -73,7 +74,7 @@ stop=F; for (k in 1:length(Ns)){
   }
 }
 
-saveRDS(BigBeta, "results/BigBeta2.rds")
+saveRDS(BigBeta, "./results/BigBeta2.rds")
 
 for (l in 1:(L)){
   plot(out$Beta[1,perm[l],], type="l", col=2, ylim=c(-3,3), main=paste(l))
@@ -84,13 +85,7 @@ for (l in 1:(L)){
   }
 }
 
-
-
-# plot(BigBeta[2,myq,myl,myk,], pch=16, ylim=c(-2,2))
-# arrows(1:nreps, BigBeta[3,myq,myl,myk,], 1:nreps, BigBeta[1,myq,myl,myk,], length=0.05, angle=90, code=3)
-# abline(h=TBeta[myq,myl], col="red")
-
-BigBeta <- readRDS("results/BigBeta2.rds")
+BigBeta <- readRDS("./results/BigBeta2.rds")
 
 myl=2; myq=2; data.frame(med=c(BigBeta[2,myq, myl,,]),
            low=c(BigBeta[3,myq, myl,,]),

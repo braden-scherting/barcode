@@ -4,7 +4,7 @@ library(tidyverse)
 library(latex2exp)
 library(pROC)
 
-source("awwwSnap.R")
+source("SetupFunctions.R")
 sourceCpp("sampler_snapdragonStatic.cpp")
 
 
@@ -177,8 +177,8 @@ for (k in 1:4){
 #   ylim(-0.01, 0.3) + 
 #   ggtitle(TeX(r"( $$ )")) 
 
-avgMissS <- readRDS("results/recoverS.rds")
-avgMissC <- readRDS("results/recoverC.rds")
+avgMissS <- readRDS("./results/recoverS.rds")
+avgMissC <- readRDS("./results/recoverC.rds")
 
 
 data.frame(cm=colMeans(avgMissS), 

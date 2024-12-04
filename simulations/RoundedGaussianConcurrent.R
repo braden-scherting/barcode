@@ -1,4 +1,5 @@
-sourceCpp("sampler_snapdragonXonly.cpp")
+source("SetupFunctions.R")
+sourceCpp("./models/sampler_snapdragonXonly.cpp")
 
 getStoreInit <- function(dat, dims){
   storeInit <- list(Ypresent=1 * !is.na(dat$Y))
@@ -91,4 +92,4 @@ for (rep in 1:nreps){
 saveRDS(list(RoGauRMSE=RoGauRMSE, 
              RoGauMAE=RoGauMAE,
              RoGauProc=RoGauProc),
-        "results/RoundGaussConcurrent")
+        "./results/RoundGaussConcurrent")
