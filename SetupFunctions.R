@@ -139,7 +139,7 @@ runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, ...){
                 ...)
   } 
   
-  saveRDS(tmpFit, paste0("results/", format(Sys.time(), "%H%M%a%e%b%Y"), ".rds"))
+  saveRDS(tmpFit, paste0("results/", format(Sys.time(), "%H%M%a%d%b%Y"), ".rds"))
   return(NULL)
 }
 
@@ -171,7 +171,7 @@ stackChains <- function(list4, name){
 
 stackedList <- function(list4){
   newList <- list()
-  for (name in names(list4[[1]])[1:11]){
+  for (name in names(list4[[1]])[names(list4[[1]] != "Ypart")]){
     newList[[name]] <- stackChains(list4, name)
   }
   return(newList)
