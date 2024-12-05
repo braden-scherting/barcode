@@ -171,7 +171,7 @@ stackChains <- function(list4, name){
 
 stackedList <- function(list4){
   newList <- list()
-  for (name in names(list4[[1]])[names(list4[[1]] != "Ypart")]){
+  for (name in names(list4[[1]])){
     newList[[name]] <- stackChains(list4, name)
   }
   return(newList)
