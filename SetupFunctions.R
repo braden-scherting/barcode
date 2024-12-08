@@ -145,7 +145,7 @@ runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, ...){
 
 stackChains <- function(list4, name){
   dims <- dim(list4[[1]][[name]])
-  ndim <- length(dims)
+  ndim <- length(dims[dims!=1])
   
   
   niter <- dims[ndim]

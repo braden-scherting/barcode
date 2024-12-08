@@ -425,7 +425,7 @@ arma::mat SRandomBlocked_snapdragon(arma::mat Y, arma::mat Gamma, arma::mat S, a
 
 
 // [[Rcpp::export]]
-Rcpp::List sampler_snapdragon(int niter, int nthin, int nburn, Rcpp::List dims, Rcpp::List dat, 
+Rcpp::List sampler_snapdragonSpatial(int niter, int nthin, int nburn, Rcpp::List dims, Rcpp::List dat, 
                         Rcpp::List storeInit, unsigned int workerSeed, int x=0, int pred=0) {
   
   set_seed(workerSeed);
