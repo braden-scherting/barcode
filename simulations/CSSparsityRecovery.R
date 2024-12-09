@@ -5,7 +5,7 @@ library(latex2exp)
 library(pROC)
 
 source("SetupFunctions.R")
-sourceCpp("sampler_snapdragonStatic.cpp")
+sourceCpp("./models/sampler_snapdragonStatic.cpp")
 
 
 # ---FIXED VALUES--- # 
