@@ -93,7 +93,7 @@ loadData <- function(nYears=11, nSpecies=137, noFactors=10, initialization=T, ye
   storeInit <- list(condVar=condVar, condVarChol=condVarChol, Ypresent=Ypresent)
   
   if (initialization){
-    nmfInit <- NMF::nmf(dat$Y, noFactors, nrun=10, seed=441503)
+    nmfInit <- NMF::nmf(dat$Y, noFactors, nrun=30, seed=481503)
     PhiInit <- NMF::basis(nmfInit)
     GammaInit <- t(NMF::coef(nmfInit))
     # ab <- sqrt(mean(PhiInit) / mean(GammaInit))
