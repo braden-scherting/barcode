@@ -1,13 +1,18 @@
 library("sf")
 library("rnaturalearth")
 library("rnaturalearthdata")
+library(patchwork)
 library(latex2exp)
 
 source("SetupFunctions.R")
-outStack <- stackedList(readRDS("./results/birds6factors05Dec2024.rds"))
-
+# outStack <- stackedList(readRDS("./results/birds6factors05Dec2024.rds"))
+outStack <- stackedList(readRDS("./results/spatial8factors11Dec2024.rds"))
 tmp <- loadData(noFactors = dim(outStack$C)[2], initialization = F)
 dims <- tmp$dims
+
+if (is.null(outStack$Beta)){
+  outStack$Beta <- array(0, dim=c(dims$Q, dims$L, dim(outStack$C)[3]))
+}
 
 # D <- plgp::distance(cbind(as.data.frame(models$abu$rL$route$s)$long, 
 #                           as.data.frame(models$abu$rL$route$s)$lat))
