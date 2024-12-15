@@ -8,74 +8,7 @@ library(NMF)
 library(doFuture, quietly = TRUE)
 library(future.apply)
 
-loadData <- function(noFactors=10, initialization=T){
-  # load("data/unfitted_models.RData")
-  # 
-  # # number of years to consider
-  # minusYear <- -nYears
-  # 
-  # if (yearSetFlag){
-  #   obsTF <-  -models$abu$XData$year %in% yearSet
-  # } else {
-  #   obsTF <- models$abu$XData$year > minusYear
-  # }
-  # 
-  # XData <- models$abu$X[obsTF,] |> as.data.frame() 
-  # Y <- models$abu$Y[rownames(models$abu$XData[obsTF,]), ]
-  # 
-  # # number of species to consider
-  # P <- min(c(nSpecies, ncol(Y)))
-  # Y <-  Y[,1:P]
-  # 
-  # nonzeroRows <- which(rowSums(Y)>0)
-  # 
-  # XData <- XData[nonzeroRows, ]
-  # Y <- Y[nonzeroRows, ]
-  # 
-  # colnames(XData) <- plyr::mapvalues(colnames(XData), 
-  #                                    colnames(XData)[startsWith(colnames(XData), "poly")],
-  #                                    c("polyAprMay1", "polyAprMay2",
-  #                                      "polyDecFeb1", "polyDecFeb2",
-  #                                      "polyJunJul1", "polyJunJul2"))
-  # 
-  # XFormula <- models$abu$XFormula
-  # XFormula <- update.formula(XFormula, 
-  #                            new = "~.-poly(AprMay, degree = 2, raw = TRUE) -
-  #                                       poly(DecFeb, degree = 2, raw = TRUE) -
-  #                                       poly(JunJul, degree = 2, raw = TRUE) -
-  #                                       VMI_PC2 - VMI_PC3 - VMI_PC4 - VMI_PC5 - 
-  #                                       year -1 +
-  #                                       # as.factor(year) +
-  #                                       polyAprMay1 +
-  #                                       polyDecFeb1 +
-  #                                       polyJunJul1")
-  # 
-  # XData <- model.matrix(XFormula, XData)
-  # XData <- scale(XData)
-  # XData <- cbind(rep(1, nrow(XData)), XData)
-  # colnames(XData)[1] <- "(Intercept)"
-  # 
-  # recentDesign <- models$abu$studyDesign[obsTF,]
-  # recentDesign <- recentDesign[nonzeroRows,]
-  # studyDesign <- as.character(recentDesign$route)
-  # routes <- unique(studyDesign)
-  # 
-  # N <- nrow(XData)
-  # Q <- ncol(XData)
-  # K <- length(routes)
-  # 
-  # des <- as.numeric(plyr::mapvalues(studyDesign, routes, 1:length(routes))) 
-  # des01 <- matrix(0, nrow=N, ncol=K)
-  # des01[cbind(1:N, des)] <- 1
-  # 
-  # long.lat <- cbind(as.data.frame(models$abu$rL$route$s)[routes,]$long, 
-  #                   as.data.frame(models$abu$rL$route$s)[routes,]$lat)
-  # 
-  # D <- plgp::distance(long.lat)
-  # 
-  # 
-  # 
-  # dat <- list(X=as.matrix(XData), Y =Y, des01=des01, D=D, XFormula=XFormula)
+loadData <- function(noFactors=5, initialization=T){
   dat <- readRDS("data/birds.rds"); names(dat)[2] <- "X"
   dims <- list(N=nrow(dat$X), P=ncol(dat$Y), L=noFactors, Q=ncol(dat$X), K=ncol(dat$des01))
   
