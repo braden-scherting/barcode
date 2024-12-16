@@ -22,9 +22,6 @@ getStoreInit <- function(dat, dims){
   nmfInit <- NMF::nmf(Ynmf[nonZrows, nonZcols], dims$L, nrun=10, seed=20114)
   PhiInit[nonZrows,] <- NMF::basis(nmfInit)
   GammaInit[nonZcols,] <- t(NMF::coef(nmfInit))
-  # ab <- sqrt(mean(PhiInit) / mean(GammaInit))
-  # PhiInit <- as.matrix(PhiInit / ab)
-  # GammaInit <- t(as.matrix(GammaInit * ab))
   GammaInit <- GammaInit * matrix(colSums(PhiInit), dims$P, dims$L, byrow = T)
   PhiInit <- PhiInit / matrix(colSums(PhiInit), dims$N, dims$L, byrow = T)
   
@@ -79,15 +76,15 @@ for (rep in 1:nreps){
   print(paste("Rep:", rep))
 }
 
-# saveRDS(list(finnRMSE=finnRMSE,
-#              finnMAE=finnMAE), "results/OOPSEappN300P30R25.rds")
+saveRDS(list(finnRMSE=finnRMSE,
+             finnMAE=finnMAE), "./results/OOPSEappN300P30R25.rds")
 
 
-library(ggplot2)
-library(ggpattern)
-library(tidyverse)
+# library(ggplot2)
+# library(ggpattern)
+# library(tidyverse)
 
-OOPSE <- readRDS("results/OOPSEappN300P30R25.rds")
+OOPSE <- readRDS("./results/OOPSEappN300P30R25.rds")
 
 data.frame(reshape::melt(OOPSE)) %>%
   filter(X2<3) |> 

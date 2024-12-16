@@ -40,12 +40,6 @@ corrplot(SstrMat[rownames(c$corr)[100:125],rownames(c$corr)[100:125]],
                    type ="lower", bg = 'white', col.lim=c(3,6),
                    addgrid.col = 'lightgrey') 
 
-#  corrRect(index=c(1,5,10,14,22,27), col="red")
-
-
-
-# corrplot::corrplot(SstrMat, order="hclust")
-
 N <- tmp$dims$N
 CstrMat <- matrix(0, N,N)
 for (i in 1:(N-1)){
@@ -54,9 +48,6 @@ for (i in 1:(N-1)){
   CstrMat[k,i] <- CstrMat[i,k]
   }
 }
-
-library(corrplot)
-# COL2(diverging = c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr", "RdYlBu"), n = 200)
 
 corrplot::corrplot(method="color", CstrMat[1100:1200,1100:1200], order="FPC", 
                    is.corr = F, col = COL1('YlOrRd', 5))
