@@ -9,6 +9,8 @@ library(doFuture, quietly = TRUE)
 library(future.apply)
 
 loadData <- function(noFactors=5, initialization=T){
+  # Loads and packages data for input to sampler
+  
   dat <- readRDS("data/birds.rds"); names(dat)[2] <- "X"
   dims <- list(N=nrow(dat$X), P=ncol(dat$Y), L=noFactors, Q=ncol(dat$X), K=ncol(dat$des01))
   
@@ -77,6 +79,8 @@ runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, ...){
 }
 
 stackChains <- function(list4, name){
+  # Collates samples when multiple chains are run (1/2)
+  
   dims <- dim(list4[[1]][[name]])
   ndim <- length(dims[dims!=1])
   
@@ -103,6 +107,8 @@ stackChains <- function(list4, name){
 }
 
 stackedList <- function(list4){
+  # Collates samples when multiple chains are run (2/2)
+  
   newList <- list()
   for (name in names(list4[[1]])){
     newList[[name]] <- stackChains(list4, name)
