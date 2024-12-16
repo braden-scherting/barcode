@@ -11,3 +11,6 @@ Code to reproduce analyses within manuscript titled *Inferring latent structure 
 - `models/` implements Gibbs samplers for four model configurations.
 - `simulations/` contains scripts for reproducing simulation results and corresponding figures.
 - `figures/` contains scripts for reproducing figures.
+
+# Workflow
+
