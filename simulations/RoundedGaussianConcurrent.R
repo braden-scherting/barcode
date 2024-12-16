@@ -2,7 +2,6 @@ library(NMF)
 library(Rcpp)
 library(tidyverse)
 library(latex2exp)
-library(pROC)
 
 source("SetupFunctions.R")
 sourceCpp("./models/sampler_snapdragonXonly.cpp")
@@ -62,16 +61,6 @@ for (rep in 1:nreps){
   while(inherits(outGLLVMpois,"try-error")){outGLLVMpois <- try(gllvm(y=Ycv, X=X, num.lv.c=nAx, 
                               num.lv = 0, family="poisson", starting.val="zero", maxit=1e7,
                               sd.errors=F, optimizer="alabama"))}
-  
-  # outGLLVMnb <- try(gllvm(y=Ycv, X=X, num.lv.c=nAx, 
-  #                   num.lv = 0, family="negative.binomial", starting.val="random", maxit=1e7,
-  #                   sd.errors=F, optimizer="alabama"))
-  # if(inherits(outGLLVMnb,"try-error")){outGLLVMnb <- try(gllvm(y=Ycv, X=X, num.lv.c=nAx, 
-  #                                                              num.lv = 0, family="negative.binomial", starting.val="random", maxit=1e7,
-  #                                                              sd.errors=F, optimizer="alabama"))}
-  # while(inherits(outGLLVMnb,"try-error")){outGLLVMnb <- try(gllvm(y=Ycv, X=X, num.lv.c=nAx, 
-  #                                                                 num.lv = 0, family="negative.binomial", starting.val="random", maxit=1e7,
-  #                                                                 sd.errors=F, optimizer="alabama"))}
   
   dat <- list(Y=Ycv, X=X)
   dims <- list(N=nrow(dat$Y), P=ncol(dat$Y), L=nAx, Q=ncol(dat$X))

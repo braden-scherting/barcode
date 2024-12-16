@@ -2,7 +2,7 @@ library(NMF)
 library(Rcpp)
 library(tidyverse)
 library(latex2exp)
-library(pROC)
+# library(pROC)
 
 source("SetupFunctions.R")
 sourceCpp("./models/sampler_snapdragonStatic.cpp")
@@ -18,10 +18,10 @@ L <- 5
 nreps <- 25
 
 
-rocC <- list(k1=list(),
-             k2=list(),
-             k3=list(),
-             k4=list())
+# rocC <- list(k1=list(),
+#              k2=list(),
+#              k3=list(),
+#              k4=list())
 
 avgMissC <- matrix(NA, nreps, 4)
 
@@ -86,18 +86,18 @@ for (k in 1:4){
     
     print((k-1)*nreps + rep )
     
-    rocC[[k]][[rep]] <- roc(c(Crep), c(apply(out$C[,perm,], c(1,2), mean)))$auc
+    # rocC[[k]][[rep]] <- roc(c(Crep), c(apply(out$C[,perm,], c(1,2), mean)))$auc
     avgMissC[rep, k] <- mean(apply(out$C[,perm,], 3, function(x) mean((x!=Crep))))
   }
 }
 
+saveRDS(avgMissC, "./results/recoverC.rds")
 
 
-
-rocS <- list(k1=list(),
-             k2=list(),
-             k3=list(),
-             k4=list())
+# rocS <- list(k1=list(),
+#              k2=list(),
+#              k3=list(),
+#              k4=list())
 
 avgMissS <- matrix(NA, nreps, 4)
 
@@ -121,7 +121,6 @@ for (k in 1:4){
                     sample(0:1, N, T, c(1-etaC[3], etaC[3])),
                     sample(0:1, N, T, c(1-etaC[4], etaC[4])),
                     sample(0:1, N, T, c(1-etaC[5], etaC[5])))
-      # print(paste("C:", k , ",", rep) )
     }
     
     Phixx <- matrix(rgamma(N*L, 1, 1/3), nrow=N)
@@ -163,23 +162,15 @@ for (k in 1:4){
     
     print((k-1)*nreps + rep )
     
-    rocS[[k]][[rep]] <- roc(c(Srep), c(apply(out$S[,perm,], c(1,2), mean)))$auc
+    # rocS[[k]][[rep]] <- roc(c(Srep), c(apply(out$S[,perm,], c(1,2), mean)))$auc
     avgMissS[rep, k] <- mean(apply(out$S[,perm,], 3, function(x) mean((x!=Srep))))
   }
 }
 
+saveRDS(avgMissS, "./results/recoverS.rds")
 
-
-# data.frame(m=c(avgMissS), ss=sort(rep(c(100, 250, 500), nreps))) %>%
-#   ggplot() + 
-#   geom_boxplot(aes(y=m, group=ss, x=as.factor(ss)), fill="transparent", width=0.15) + 
-#   theme_bw() + ylab(TeX(r"( RMSE $\hat{B}$ )")) + xlab("Sample size") +
-#   ylim(-0.01, 0.3) + 
-#   ggtitle(TeX(r"( $$ )")) 
-
-avgMissS <- readRDS("./results/recoverS.rds")
 avgMissC <- readRDS("./results/recoverC.rds")
-
+avgMissS <- readRDS("./results/recoverS.rds")
 
 data.frame(cm=colMeans(avgMissS), 
            cmax=apply(avgMissS,2,quantile, probs=0.95), 

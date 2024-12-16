@@ -5,8 +5,6 @@ library(latex2exp)
 
 source("SetupFunctions.R")
 sourceCpp("./models/sampler_snapdragonXonly.cpp")
-# sourceCpp("sampler_snapdragonStatic.cpp")
-# sourceCpp("sampler_snapdragon.cpp")
 
 # ---FIXED VALUES--- # 
 set.seed(1097329)
@@ -115,11 +113,6 @@ for (myl in 1:5){
     annotate("segment", x=3-0.35, xend=3+0.35, y=TBeta[3,myl], color="black") +
     annotate("segment", x=4-0.35, xend=4+0.35, y=TBeta[4,myl], color="black") +
     annotate("segment", x=5-0.35, xend=5+0.35, y=TBeta[5,myl], color="black") +
-    # geom_segment(aes(x=1-0.35, xend=1+0.35, y=TBeta[1,myl]), color="black") + 
-    # geom_segment(aes(x=2-0.35, xend=2+0.35, y=TBeta[2,myl]), color="black") + 
-    # geom_segment(aes(x=3-0.35, xend=3+0.35, y=TBeta[3,myl]), color="black") + 
-    # geom_segment(aes(x=4-0.35, xend=4+0.35, y=TBeta[4,myl]), color="black") + 
-    # geom_segment(aes(x=5-0.35, xend=5+0.35, y=TBeta[5,myl]), color="black") + 
     geom_point(aes(y=med), show.legend=T) + 
     geom_segment(aes(y = low, yend=high), show.legend=F) +
     geom_point(aes(color=as.factor(ss), y=high), shape="—", show.legend=F) +
@@ -141,14 +134,11 @@ BBdevNoInt <- array(0, dim=c(nreps, length(Ns)))
 
 for (k in 1:length(Ns)){
   for (rep in 1:nreps){
-    # BBcover[,k] <-BBcover[,k] + rowMeans((BigBeta[1,2:Q,,k,rep] < TBeta[2:Q,]) * (TBeta[2:Q,] < BigBeta[3,2:Q,,k,rep]))
     BBdev[rep, k] <-  sqrt(mean((BigBeta[2, 1:Q, ,k, rep] - TBeta[1:Q,])^2))
     BBdevNoInt[rep, k] <-  sqrt(mean((BigBeta[2, 2:Q, ,k, rep] - TBeta[2:Q,])^2))
   }
 }
 
-
-# data.frame(m=colMeans(BBdev), t(apply(BBdev, 2, quantile, probs=c(0.025, 0.975)))) %>% 
 data.frame(m=c(BBdev), ss=sort(rep(c(100, 250, 500, 1000), nreps))) %>%
   ggplot() + 
   geom_boxplot(aes(y=m, group=ss, x=as.factor(ss)), fill="transparent", width=0.15) + 
@@ -173,11 +163,8 @@ data.frame(m=c(c(BBdev), c(BBdevNoInt)),
            ss=rep(sort(rep(c(100, 250, 500, 1000), nreps)),2),
            int=sort(rep(c("Int. incl", "Int. excl"), 100))) %>%
   ggplot() + 
-  # geom_jitter(aes(y=m, x=as.factor(ss)), width=0.01, alpha=0.1) +
   geom_boxplot(aes(y=m, fill=as.factor(int), x=as.factor(ss)),width=0.34) +
   theme_bw() + ylab(TeX(r"( RMSE $\hat{B}$ )")) + xlab("Sample size") +
   ylim(-0.01, 0.32) +
   labs(fill='') +
-  # scale_fill_manual(labels=c(TeX(r"( Incl. $\beta_0$ )"), TeX(r"( Excl. $\beta_0$ )")),
-  #                     values=c("#009E73", "orange")) 
   ggtitle(TeX(r"( $$ )")) 
