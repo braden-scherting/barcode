@@ -2,8 +2,8 @@ library(patchwork)
 library(ggplot2)
 library(ggpattern)
 
-RGC <- readRDS("results/RoundGaussConcurrent")
-PCU <- readRDS("results/PoissonCopulaUnconstrained")
+RGC <- readRDS("results/RoundGaussConcurrent.rds")
+PCU <- readRDS("results/PoissonCopulaUnconstrained.rds")
 
 
 data.frame(RMSE=c(PCU$pCopRMSE), method=c(rep("Barcode", 100),

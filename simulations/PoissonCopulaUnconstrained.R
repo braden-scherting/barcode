@@ -63,4 +63,4 @@ for (rep in 1:nreps){
 }
 
 saveRDS(list(pCopRMSE=pCopRMSE, pCopMAE=pCopMAE), 
-        "./results/PoissonCopulaUnconstrained")
+        "./results/PoissonCopulaUnconstrained.rds")

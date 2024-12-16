@@ -5,8 +5,8 @@ library(patchwork)
 library(latex2exp)
 
 source("SetupFunctions.R")
-# outStack <- stackedList(readRDS("./results/birds6factors05Dec2024.rds"))
-outStack <- stackedList(readRDS("./results/spatial8factors11Dec2024.rds"))
+outStack <- stackedList(readRDS("./results/birds6factors05Dec2024.rds"))
+# outStack <- stackedList(readRDS("./results/spatial8factors11Dec2024.rds"))
 tmp <- loadData(noFactors = dim(outStack$C)[2], initialization = F)
 dims <- tmp$dims
 

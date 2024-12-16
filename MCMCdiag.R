@@ -9,8 +9,8 @@ tmp <- loadData(initialization = F, noFactors = 6)
 # chains <- readRDS("results/spatial10factors06Dec2024INCOMPLETE.rds")
 # tmp <- loadData(initialization = F, noFactors = 10)
 
-chains <- readRDS("results/spatial0424Wed11Dec2024.rds")
-tmp <- loadData(initialization = F, noFactors = 8)
+# chains <- readRDS("results/spatial0424Wed11Dec2024.rds")
+# tmp <- loadData(initialization = F, noFactors = 8)
 
 n <- nrow(chains[[1]]$C)
 p <- nrow(chains[[1]]$S)

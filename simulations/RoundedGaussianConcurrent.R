@@ -87,4 +87,4 @@ for (rep in 1:nreps){
 saveRDS(list(RoGauRMSE=RoGauRMSE, 
              RoGauMAE=RoGauMAE,
              RoGauProc=RoGauProc),
-        "./results/RoundGaussConcurrent")
+        "./results/RoundGaussConcurrent.rds")
