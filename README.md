@@ -1,13 +1,15 @@
 # barcode
 
-Code to reproduce analyses within manuscript titled *Inferring latent structure in ecological communities via barcodes*.
+Code to reproduce analyses within manuscript titled *Joint species distribution modeling of abundance data through latent variable barcodes*.
 
 # Structure
 
-- `SetupFunctions.R` supplies utility functions.
-- `ParallelFit.R` and `ParallelFitSpatial.R` run the Gibbs sampler in parallel; these should not be executed in RStudio. 
-- `progressFiles/` will be populated by files documenting sampling progress when the Gibbs sampler is run. The file `out0.txt` will be created and updated here when running a single chain, and files `out{X}.txt` will be created when running parallel chains, $X\in1:n_{chains}$.
-- `results/` will be populated by files containing posterior samples.
-- `models/` implements Gibbs samplers for four model configurations.
-- `simulations/` contains scripts for reproducing simulation results and corresponding figures.
-- `figures/` contains scripts for reproducing figures.
+- `R/` contains R scripts to reproduce analyses, simulations and figures. `barcode/R` is the expected working directory.
+  - `R/setup_functions.R` supplies utility functions and is called from other scripts. 
+  - Fit models using `R/analysis.R` in an R interactive console. 
+  - Generate figures from Section 4 using `R/plotting_functions.R`.
+  - Compute statistical summaries referenced in Section 4 using `R/summaries.R`.
+  - `R/simulations/` contains scripts for performing simulations and plotting results described in the Supplementary Materials. 
+- `src/` contains `.cpp` implementations of the model. 
+- `data/` contains the data.
+- `output/` contains two folders; `output/progressFiles` holds text files that are updated during sampling for monitoring progress, and `output/results` hold fitted models and simulation results. 
