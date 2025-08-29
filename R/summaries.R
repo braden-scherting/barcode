@@ -2,7 +2,8 @@ library(tidyverse)
 library(latex2exp)
 
 source("setup_functions.R")
-samples <- stackedList(readRDS("../output/results/rank7_1948Wed25Jun2025.rds"))
+# samples <- stackedList(readRDS("../output/results/rank7_1948Wed25Jun2025.rds"))
+samples <- stackedList(readRDS("../output/results/MYRESULTS"))
 data <- loadData(noFactors = ncol(samples$Gamma))
 
 # Reorder factors
@@ -81,7 +82,8 @@ Smed[which(Smed[,1]==Smed[,2] & Smed[,3]==Smed[,4] & Smed[,2] + Smed[,3]==2),]
 colnames(data$dat$Y)[which(rowSums(Smed)==7)]
 
 # MCMC diagnostics
-chains <- readRDS("../output/results/rank7_1948Wed25Jun2025.rds")
+# chains <- readRDS("../output/results/rank7_1948Wed25Jun2025.rds")
+chains <- readRDS("../output/results/MYRESULTS")
 
 n <- nrow(chains[[1]]$C)
 p <- nrow(chains[[1]]$S)

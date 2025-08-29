@@ -270,16 +270,16 @@ plot_obs_correlations <- function(data,  clust=NULL){
   return(plt)
 }
 
-samples5 <- stackedList(readRDS("../output/results/rank5_1434Wed25Jun2025.rds"))
+samples5 <- stackedList(readRDS("../output/results/rank5_xxx"))
 mydata5 <- loadData(noFactors = ncol(samples5$Gamma))
 
-samples6 <- stackedList(readRDS("../output/results/rank6_1658Wed25Jun2025.rds"))
+samples6 <- stackedList(readRDS("../output/results/rank6_xxx"))
 mydata6 <- loadData(noFactors = ncol(samples6$Gamma))
 
-samples7 <- stackedList(readRDS("../output/results/rank7_1948Wed25Jun2025.rds"))
+samples7 <- stackedList(readRDS("../output/results/rank7_xxx"))
 mydata7 <- loadData(noFactors = ncol(samples7$Gamma))
 
-samples8 <- stackedList(readRDS("../output/results/rank8_1259Fri27Jun2025.rds"))
+samples8 <- stackedList(readRDS("../output/results/rank8_xxx"))
 mydata8 <- loadData(noFactors = ncol(samples8$Gamma))
 
 maps5 <- plot_factor_maps(mydata5, samples5)
@@ -329,7 +329,7 @@ load7[[1]] + guides(fill = guide_legend(nrow = 1)) & theme(legend.text = element
 # Re-ordered factors
 #--------------------------#
 
-samples <- stackedList(readRDS("../output/results/rank7_1948Wed25Jun2025.rds"))
+samples <- stackedList(readRDS("../output/results/rank7_xxx"))
 data <- loadData(noFactors = ncol(samples$Gamma))
 
 ordered7factorMaps <- function(data, samples){
