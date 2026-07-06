@@ -7,21 +7,27 @@ Code to reproduce analyses within manuscript titled *Joint species distribution 
 
 - `data/birds2.rds` Dataset; details below.
 - `output/progressFiles/` contains blank text files to which MCMC progress updates are written
-- `output/results`
-  - This and that
+- `output/results/`
+  - `recoverC.rds` contains fitted model object for reproducing Figure A.4.
+  - `recoverS.rds` contains fitted model object for reproducing Figure A.4.
+  - `BigBeta2.rds` contains parameter estimates for reproducing Figure A.5.
+  - `OOPSEpreds.rds`contains cross validation predictions to reproduce results presented under the heading ``Explaining and Predicting Observed Community Distribution''
+  - `foldRMSE.rds` contains summaries based on `OOPSEpreds.rds`
 - `R/` contains R scripts to reproduce analyses, simulations and figures. `barcode/R` is the expected working directory.
-  - `R/setup_functions.R` supplies utility functions and is called from other scripts. 
-  - Fit models using `R/analysis.R` in an R interactive console. 
-  - Generate figures from Section 4 using `R/plotting_functions.R`.
-  - Compute statistical summaries referenced in Section 4 using `R/summaries.R`.
+  - `R/setup_functions.R` is called from other scripts and supplies utility functions for loading data in the expected format, model fitting, and compiling results. 
+  - Fit models using `R/analysis.R` in an R interactive console. The provided model fit calls produce results for $L\in\{5,6,7,8,10,20\}$.
+  
+  - Generate figures from Section 4 using `R/plotting_functions.R`. Manuscript figures can be replicated using this script based on the provided contents of `output/results`.
+  - `R/summaries.R` included code to replicate numerical summaries based on contents of `output/results`.
   - `R/simulations/` contains scripts for performing simulations and plotting results described in the Supplementary Materials. 
-- `src/` contains `.cpp` implementations of the model. 
-- `data/` contains the data.
-- `output/` contains two folders; `output/progressFiles` holds text files that are updated during sampling for monitoring progress, and `output/results` hold fitted models and simulation results. 
+    - `CSSparsityRecovery2.R` reproduces Figure A.4.
+    - `BetaRecovery2.R` reproduces Figure A.5
+    - `OutOfSamplePrediction2.R` reproduces results presented under the heading ``Explaining and Predicting Observed Community Distribution''
+- `src/barcodeSampler.cpp` contains model fitting code and is called by other functions in `setup_functions.R`
 
 # Data Dictionary 
 
-The `birds2.rds` dataset is a list with the following elements:
+The `birds2.rds` data set is a list with the following elements:
 
 - `Y` is a 2826-by-132 matrix of bird abundances. Row and column names identify the sample ID and species name, respectively.
 - `XData` is a 2826-by-21 matrix of covariates
