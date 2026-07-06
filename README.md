@@ -60,6 +60,7 @@ The `birds2.rds` data set is a list with the following elements:
 # Scope
 
 The provided workflow reproduces:
+
 - Any numbers provided in the text of the paper
 - The computational methods presented in the paper 
 - All tables and figures in the paper
