@@ -1,5 +1,7 @@
 source("setup_functions.R")
 
+# Model fitting for each L = 5,6,7,8,10,20. Model objects are saved to output/results/rank{L}_{TimeAndDate}.rds
+
 dat5 <- loadData(noFactors=5, initialization = T)
 runParallel(dat5, niter=2500, nburn=25000, nthin=10, seedSeed = 320104,
             nParallelChains=4, prefix="rank5_")

@@ -11,12 +11,13 @@ loadData <- function(noFactors=6, initialization=F){
 
   dat <- readRDS("../data/birds2.rds"); names(dat)[2] <- "X"
 
+  # Create sparse matrix from abundance data
   ij <- which(dat$Y!=0, arr.ind = T)
   dat$RspY <- Matrix::sparseMatrix(i=ij[,1], j=ij[,2], x=dat$Y[dat$Y!=0])
 
-
   dims <- list(N=nrow(dat$X), P=ncol(dat$Y), L=noFactors, Q=ncol(dat$X), K=ncol(dat$des01))
 
+  # Initialize empty arrays for spatial autocorrelation quantities
   Sigs <- array(dim=c(dims$K, dims$K, dims$L))
   Rinv <- array(dim=c(dims$K, dims$K, dims$L))
   condVar <- array(dim=c(dims$K, dims$K, dims$L))
@@ -30,42 +31,39 @@ loadData <- function(noFactors=6, initialization=F){
   }
 
   Ypresent <- !is.na(dat$Y)
-
+  
+  # Object expected by sampler
   storeInit <- list(condVar=condVar, condVarChol=condVarChol, Ypresent=Ypresent)
 
+  # Creating blocks for joint Gibbs updates
   blockSize <- min(dims$L, 3)
   storeInit$Cstar <- matrix(0, ncol=blockSize, nrow=2^blockSize)
   for (i in 1:(2^blockSize - 1)){
     storeInit$Cstar[i+1,] <- binaryLogic::as.binary(i, n=blockSize)
   }
 
-
+  # Optional optimization-based initialization
   if (initialization) {
     mf <- poismf(dat$Y, k=dims$L - 1, l2_reg=0, niter=100, nthreads=1)
     storeInit$Ginit <- cbind(rep(1, dims$P), t(mf$B) * (rep(1, dims$P) %*% t(rowSums(mf$A))))
     storeInit$Pinit <- cbind(rep(1/dims$N, dims$N), t(mf$A) / (rep(1, dims$N) %*% t(rowSums(mf$A))))
   } else {
-    storeInit$Pinit <- matrix(1/dims$N, nrow=dims$N, ncol=dims$L)
     storeInit$Ginit <- matrix(rgamma(dims$P*dims$L, 2,1), nrow=dims$P, ncol=dims$L)
+    storeInit$Pinit <- matrix(1/dims$N, nrow=dims$N, ncol=dims$L)
   }
 
   return(list(dims=dims, dat=dat, storeInit=storeInit, coords=dat$long.lat))
 }
 
+# Single sampler call; this is called by the runParallel function below.
 runOneChain <- function(dims, dat, storeInit, workerSeed=sample(10:1e7,1),
                         workerNo=0, niter=200, nthin=1, nburn=200, pred=0, blockSize=5){
   sourceCpp("../src/barcodeSampler.cpp")
-
-  # blockSize <- min(dims$L, blockSize)
-  # storeInit$Cstar <- matrix(0, ncol=blockSize, nrow=2^blockSize)
-  # for (i in 1:(2^blockSize - 1)){
-  #   storeInit$Cstar[i+1,] <- binaryLogic::as.binary(i, n=blockSize)
-  # }
-
   return(sampler_camellia(dat, dims, storeInit, workerSeed, niter, nthin, nburn,
                           x=workerNo))
 }
 
+# Parallel sampling
 runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, prefix="out", ...){
 
   registerDoFuture()
@@ -83,12 +81,10 @@ runParallel <- function(inputs, nParallelChains=4, seedSeed=172024, prefix="out"
   return(NULL)
 }
 
+# Collates samples when multiple chains are run (1/2)
 stackChains <- function(list4, name){
-  # Collates samples when multiple chains are run (1/2)
-
   dims <- dim(list4[[1]][[name]])
   ndim <- length(dims[dims!=1])
-
 
   niter <- dims[ndim]
   dims[ndim] <- dims[ndim]*4
@@ -111,8 +107,8 @@ stackChains <- function(list4, name){
   return(tmpArr)
 }
 
+# Collates samples when multiple chains are run (2/2)
 stackedList <- function(list4, pars=c("Gamma","Phi", "C", "S", "Beta", "Xi", "bGamma", "psi")){
-  # Collates samples when multiple chains are run (2/2)
   newList <- list()
 
   for (name in pars){
@@ -120,4 +116,3 @@ stackedList <- function(list4, pars=c("Gamma","Phi", "C", "S", "Beta", "Xi", "bG
   }
   return(newList)
 }
-

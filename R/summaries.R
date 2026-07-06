@@ -3,26 +3,31 @@ library(latex2exp)
 
 source("setup_functions.R")
 # samples <- stackedList(readRDS("../output/results/rank7_1948Wed25Jun2025.rds"))
+
+# Load the appropriate model object and data
 samples <- stackedList(readRDS("../output/results/MYRESULTS"))
 data <- loadData(noFactors = ncol(samples$Gamma))
 
-# Reorder factors
-oldOrder <- c(1, 2, 3, 4, 5, 6, 7)
+# Reorder factors for interpretability
+oldOrder <- 1:7
 newOrder <- c(1, 2, 5, 6, 7, 3, 4)
 
+# Sparse point estimates of binary switches
 Cmed <- apply(samples$C, c(1,2), median)[,newOrder]
 Smed <- apply(samples$S, c(1,2), median)[,newOrder]
 
+# Fraction of samples/species for which factors are present/preferred
 round(colMeans(Cmed)*100)
 round(colMeans(Smed)*100)
 
-# Site fidelity
+# Site fidelity--how consistent are sample switches within sites?
 onOff <- (t(data$dat$des01) %*% Cmed) / rowSums(t(data$dat$des01))
 round(colMeans(onOff==0 | onOff==1)*100)
 
 # Site clusters
 siteCmed <- round((t(data$dat$des01) %*% Cmed[,2:7]) / rowSums(t(data$dat$des01)))
 
+# Site-wise sparse summaries
 siteCmed <- array(dim=c(555, 6, dim(samples$C)[3]))
 for (it in 1:dim(samples$C)[3]){
   siteCmed[,,it] <- (t(data$dat$des01) %*% samples$C[,2:7,it]) / rowSums(t(data$dat$des01))
@@ -50,7 +55,7 @@ round(mean(Smed[,3]==Smed[,6] & Smed[,6]==1)*100)
 
 sum(Smed[,3]==Smed[,6] & Smed[,6]==1 & Smed[,6]==Smed[,7])
 
-
+# Specialists: prefer a single factor
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,1]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,2]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,3]==1)]
@@ -59,6 +64,7 @@ colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,5]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,6]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,7]==1)]
 
+# ~Specialists: prefer a single factor, reference factor excluded
 colnames(data$dat$Y)[which(rowSums(Smed)==1 & Smed[,1]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed[,2:7])==1 & Smed[,2]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed[,2:7])==1 & Smed[,3]==1)]
@@ -67,7 +73,7 @@ colnames(data$dat$Y)[which(rowSums(Smed[,2:7])==1 & Smed[,5]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed[,2:7])==1 & Smed[,6]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed[,2:7])==1 & Smed[,7]==1)]
 
-
+# 2-factor specialists
 colnames(data$dat$Y)[which(rowSums(Smed)==2 & Smed[,3]==1 & Smed[,4]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==2 & Smed[,2]==1 & Smed[,5]==1)]
 colnames(data$dat$Y)[which(rowSums(Smed)==2 & Smed[,2]==1 & Smed[,6]==1)]
