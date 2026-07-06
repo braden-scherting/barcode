@@ -31,7 +31,26 @@ The `birds2.rds` data set is a list with the following elements:
 
 - `Y` is a 2826-by-132 matrix of bird abundances. Row and column names identify the sample ID and species name, respectively.
 - `XData` is a 2826-by-21 matrix of covariates
-  - `Mixed_Forest`
+  - `Mixed_Forest`: Fraction of area surrounding the site classified as mixed forest
+  - `Deciduous_Forest`: Fraction of area surrounding the site classified as deciduous forest
+  - `Shrubs`: Fraction of area surrounding the site classified as shrubs
+  - `Grasslands_Wetlands`: Fraction of area surrounding the site classified as grasslands OR wetlands
+  - `Acricultural_Land`: Fraction of area surrounding the site classified as agricultural land
+  - `Barren`: Fraction of area surrounding the site classified as barren
+  - `Urban`: Fraction of area surrounding the site classified as urban
+  - `Water_Bodies`: Fraction of area surrounding the site classified as water
+  - `Coastal`: Fraction of area surrounding the site classified as coastal
+  - `Stand_Age`: Age of the surrounding forest in years
+  - `Pine_Volume`: Forest inventory metric: pine volume
+  - `Spruce_Volume`: Forest inventory metric: spruce volume
+  - `Birch_Volume`: Forest inventory metric: birch volume
+  - `Other_Deciduous_Volume`: Forest inventory metric: other deciduous volume
+  - `VMI_PC1`: First principal component of vegetation indices
+  - `duration`: Survey duration (log)
+  - `linelength`: Line transect length (log)
+  - `polyAprMay1`: Annual periodic function peaking between April and May (sampling times to not cover the whole year)
+  - `polyDecFeb1`: Annual periodic function peaking in January
+  - `polyJunJul1`: Annual periodic function peaking between June and July
 - `des01` is a 2826-by-555 binary matrix with one-hot rows indicating which site each sample comes from
 - `D` is a 555-by-555 pairwise site-to-site distance matrix 
 - `XFormula` is an `R` formula object describing the latent regression specification
