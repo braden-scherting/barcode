@@ -162,8 +162,23 @@ for (fold in 2:nFolds){
 
 
 saveRDS(foldRMSE, "../output/results/foldRMSE.rds")
-saveRDS(foldRMSE, "../output/results/OOSPEpreds.rds")
+saveRDS(preds, "../output/results/OOSPEpreds.rds")
 
+c(sqrt(mean((preds[[1]][,4] - preds[[1]][,1])^2)),
+  sqrt(mean((preds[[2]][,4] - preds[[2]][,1])^2)),
+  sqrt(mean((preds[[3]][,4] - preds[[3]][,1])^2)) ) |> mean()
+
+c(sqrt(mean((preds[[1]][,5] - preds[[1]][,1])^2)),
+  sqrt(mean((preds[[2]][,5] - preds[[2]][,1])^2)),
+  sqrt(mean((preds[[3]][,5] - preds[[3]][,1])^2)) ) |> mean()
+
+c(sqrt(mean((preds[[1]][,6] - preds[[1]][,1])^2)),
+  sqrt(mean((preds[[2]][,6] - preds[[2]][,1])^2)),
+  sqrt(mean((preds[[3]][,6] - preds[[3]][,1])^2)) ) |> mean()
+
+c(sqrt(mean((preds[[1]][preds[[1]][,6]<1890,6] - preds[[1]][preds[[1]][,6]<1890,1])^2)),
+  sqrt(mean((preds[[2]][preds[[2]][,6]<1890,6] - preds[[2]][preds[[2]][,6]<1890,1])^2)),
+  sqrt(mean((preds[[3]][preds[[3]][,6]<1890,6] - preds[[3]][preds[[3]][,6]<1890,1])^2)) ) |> mean()
 
 c(sqrt(mean((preds[[1]][preds[[1]][,5]<1890,5] - preds[[1]][preds[[1]][,5]<1890,1])^2)),
   sqrt(mean((preds[[2]][preds[[2]][,5]<1890,5] - preds[[2]][preds[[2]][,5]<1890,1])^2)),
@@ -172,3 +187,43 @@ c(sqrt(mean((preds[[1]][preds[[1]][,5]<1890,5] - preds[[1]][preds[[1]][,5]<1890,
 c(sqrt(mean((preds[[1]][preds[[1]][,6]<1890,6] - preds[[1]][preds[[1]][,6]<1890,1])^2)),
   sqrt(mean((preds[[2]][preds[[2]][,6]<1890,6] - preds[[2]][preds[[2]][,6]<1890,1])^2)),
   sqrt(mean((preds[[3]][preds[[3]][,6]<1890,6] - preds[[3]][preds[[3]][,6]<1890,1])^2)) ) |> mean()
+
+
+# Mean abs error
+c(sqrt(mean(abs(preds[[1]][,4] - preds[[1]][,1]))),
+  sqrt(mean(abs(preds[[2]][,4] - preds[[2]][,1]))),
+  sqrt(mean(abs(preds[[3]][,4] - preds[[3]][,1]))) ) |> mean()
+
+c(sqrt(mean(abs(preds[[1]][,5] - preds[[1]][,1]))),
+  sqrt(mean(abs(preds[[2]][,5] - preds[[2]][,1]))),
+  sqrt(mean(abs(preds[[3]][,5] - preds[[3]][,1]))) ) |> mean()
+
+c(sqrt(mean(abs(preds[[1]][,6] - preds[[1]][,1]))),
+  sqrt(mean(abs(preds[[2]][,6] - preds[[2]][,1]))),
+  sqrt(mean(abs(preds[[3]][,6] - preds[[3]][,1]))) ) |> mean()
+
+# Median abs error
+c(sqrt(median(abs(preds[[1]][,4] - preds[[1]][,1]))),
+  sqrt(median(abs(preds[[2]][,4] - preds[[2]][,1]))),
+  sqrt(median(abs(preds[[3]][,4] - preds[[3]][,1]))) ) |> mean()
+
+c(sqrt(median(abs(preds[[1]][,5] - preds[[1]][,1]))),
+  sqrt(median(abs(preds[[2]][,5] - preds[[2]][,1]))),
+  sqrt(median(abs(preds[[3]][,5] - preds[[3]][,1]))) ) |> mean()
+
+c(sqrt(median(abs(preds[[1]][,6] - preds[[1]][,1]))),
+  sqrt(median(abs(preds[[2]][,6] - preds[[2]][,1]))),
+  sqrt(median(abs(preds[[3]][,6] - preds[[3]][,1]))) ) |> mean()
+
+# AUC
+c(pROC::auc(1*(preds[[1]][,1]>0), preds[[1]][,4]),
+  pROC::auc(1*(preds[[2]][,1]>0), preds[[2]][,4]),
+  pROC::auc(1*(preds[[3]][,1]>0), preds[[3]][,4])) |> mean()
+
+c(pROC::auc(1*(preds[[1]][,1]>0), preds[[1]][,5]),
+  pROC::auc(1*(preds[[2]][,1]>0), preds[[2]][,5]),
+  pROC::auc(1*(preds[[3]][,1]>0), preds[[3]][,5])) |> mean()
+
+c(pROC::auc(1*(preds[[1]][,1]>0), preds[[1]][,6]),
+  pROC::auc(1*(preds[[2]][,1]>0), preds[[2]][,6]),
+  pROC::auc(1*(preds[[3]][,1]>0), preds[[3]][,6])) |> mean()
